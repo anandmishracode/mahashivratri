@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🕉 MahaShivratri - Har Har Mahadev 🔱</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Poppins:wght@300;400;600;700&family=Yatra+One&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #ff6b35;
+            --secondary: #4ecdc4;
+            --gold: #ffd700;
+            --deep-blue: #0a0a2e;
+            --purple: #7b2ff7;
+            --saffron: #ff9933;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--deep-blue);
+            color: #fff;
+            overflow-x: hidden;
+            cursor: default;
+        }
+
+        /* ========== COSMIC BACKGROUND ========== */
+        #cosmicCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        /* ========== PRELOADER ========== */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        .preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .preloader .om-symbol {
+            font-size: 80px;
+            color: var(--gold);
+            animation: omPulse 1.5s ease-in-out infinite;
+        }
+
+        .preloader p {
+            margin-top: 20px;
+            font-family: 'Cinzel Decorative', serif;
+            color: var(--saffron);
+            font-size: 18px;
+            letter-spacing: 4px;
+            animation: fadeInOut 2s ease-in-out infinite;
+        }
+
+        @keyframes omPulse {
+            0%, 100% { transform: scale(1); text-shadow: 0 0 20px var(--gold); }
+            50% { transform: scale(1.2); text-shadow: 0 0 60px var(--gold), 0 0 100px var(--saffron); }
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* ========== FLOATING PARTICLES ========== */
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1;
+            animation: floatUp linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* ========== MUSIC CONTROL ========== */
+        .music-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .music-control:hover {
+            background: rgba(255, 215, 0, 0.15);
+            border-color: var(--gold);
+            transform: scale(1.05);
+        }
+
+        .music-control .icon {
+            font-size: 24px;
+        }
+
+        .music-control .label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--gold);
+        }
+
+        .sound-waves {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            height: 20px;
+        }
+
+        .sound-waves .bar {
+            width: 3px;
+            background: var(--gold);
+            border-radius: 3px;
+            animation: soundBar 0.8s ease-in-out infinite;
+        }
+
+        .sound-waves .bar:nth-child(1) { height: 8px; animation-delay: 0s; }
+        .sound-waves .bar:nth-child(2) { height: 16px; animation-delay: 0.1s; }
+        .sound-waves .bar:nth-child(3) { height: 12px; animation-delay: 0.2s; }
+        .sound-waves .bar:nth-child(4) { height: 18px; animation-delay: 0.3s; }
+        .sound-waves .bar:nth-child(5) { height: 10px; animation-delay: 0.4s; }
+
+        .sound-waves.paused .bar {
+            animation: none;
+            height: 4px !important;
+        }
+
+        @keyframes soundBar {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(0.3); }
+        }
+
+        /* ========== NAVIGATION ========== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, transparent 100%);
+        }
+
+        .nav-logo {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 20px;
+            color: var(--gold);
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        /* ========== HERO SECTION ========== */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            z-index: 2;
+            padding: 20px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 24px;
+            border: 1px solid var(--gold);
+            border-radius: 30px;
+            font-size: 14px;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 30px;
+            animation: glowPulse 3s ease-in-out infinite;
+            background: rgba(255, 215, 0, 0.05);
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { box-shadow: 0 0 10px rgba(255, 215, 0, 0.2); }
+            50% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.5), 0 0 60px rgba(255, 215, 0, 0.2); }
+        }
+
+        .trishul-icon {
+            font-size: 100px;
+            margin-bottom: 20px;
+            animation: trishulFloat 4s ease-in-out infinite;
+            filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.6));
+        }
+
+        @keyframes trishulFloat {
+            0%, 100% { transform: translateY(0) rotate(-2deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+        }
+
+        .hero h1 {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: clamp(40px, 8vw, 100px);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--saffron) 30%, #fff 50%, var(--gold) 70%, var(--saffron) 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 4s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero .subtitle {
+            font-family: 'Yatra One', cursive;
+            font-size: clamp(24px, 4vw, 48px);
+            color: var(--saffron);
+            margin-bottom: 20px;
+            text-shadow: 0 0 40px rgba(255, 153, 51, 0.5);
+            animation: subtitleGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes subtitleGlow {
+            0% { text-shadow: 0 0 20px rgba(255, 153, 51, 0.3); }
+            100% { text-shadow: 0 0 60px rgba(255, 153, 51, 0.8), 0 0 100px rgba(255, 153, 51, 0.4); }
+        }
+
+        .hero .sanskrit {
+            font-size: clamp(16px, 2.5vw, 28px);
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 40px;
+            font-style: italic;
+            letter-spacing: 3px;
+        }
+
+        .hero .mantra {
+            font-family: 'Yatra One', cursive;
+            font-size: clamp(18px, 3vw, 32px);
+            color: var(--gold);
+            padding: 15px 40px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 215, 0, 0.05);
+            animation: mantraGlow 2s ease-in-out infinite alternate;
+            margin-bottom: 30px;
+        }
+
+        @keyframes mantraGlow {
+            0% { border-color: rgba(255, 215, 0, 0.3); background: rgba(255, 215, 0, 0.05); }
+            100% { border-color: rgba(255, 215, 0, 0.8); background: rgba(255, 215, 0, 0.1); }
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .scroll-indicator span {
+            font-size: 12px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .scroll-indicator .arrow {
+            width: 20px;
+            height: 20px;
+            border-right: 2px solid var(--gold);
+            border-bottom: 2px solid var(--gold);
+            transform: rotate(45deg);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(15px); }
+        }
+
+        /* ========== DAMARU SECTION ========== */
+        .damaru-section {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            padding: 60px 20px;
+        }
+
+        .damaru-section h2 {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: clamp(28px, 5vw, 56px);
+            text-align: center;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--gold), var(--saffron));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .damaru-section .instruction {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 50px;
+            text-align: center;
+            animation: fadeInOut 3s ease-in-out infinite;
+        }
+
+        .damaru-container {
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.1s ease;
+        }
+
+        .damaru-container:active {
+            transform: scale(0.95);
+        }
+
+        .damaru-svg {
+            width: 280px;
+            height: 320px;
+            filter: drop-shadow(0 0 40px rgba(255, 153, 51, 0.4));
+            transition: filter 0.3s ease;
+        }
+
+        .damaru-container:hover .damaru-svg {
+            filter: drop-shadow(0 0 60px rgba(255, 215, 0, 0.7));
+        }
+
+        .damaru-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 153, 51, 0.3) 0%, transparent 70%);
+            animation: damaruGlow 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes damaruGlow {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+        }
+
+        .damaru-ripple {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .damaru-ripple.active {
+            animation: rippleOut 0.8s ease-out;
+        }
+
+        @keyframes rippleOut {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
+        }
+
+        .damaru-text {
+            text-align: center;
+            margin-top: 40px;
+            font-family: 'Yatra One', cursive;
+            font-size: 24px;
+            color: var(--saffron);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .damaru-text.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ========== SHIVA ATTRIBUTES SECTION ========== */
+        .attributes-section {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            padding: 80px 20px;
+        }
+
+        .attributes-section h2 {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: clamp(28px, 5vw, 50px);
+            text-align: center;
+            margin-bottom: 60px;
+            background: linear-gradient(135deg, var(--gold), var(--saffron));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .attributes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .attribute-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.15);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.5s ease;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .attribute-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .attribute-card:hover {
+            transform: translateY(-10px) !important;
+            border-color: var(--gold);
+            background: rgba(255, 215, 0, 0.05);
+            box-shadow: 0 20px 60px rgba(255, 153, 51, 0.2);
+        }
+
+        .attribute-card .icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .attribute-card h3 {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 22px;
+            color: var(--gold);
+            margin-bottom: 12px;
+        }
+
+        .attribute-card p {
+            font-size: 15px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* ========== MANTRAS SECTION ========== */
+        .mantras-section {
+            position: relative;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            padding: 80px 20px;
+        }
+
+        .mantras-section h2 {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: clamp(28px, 5vw, 50px);
+            text-align: center;
+            margin-bottom: 60px;
+            background: linear-gradient(135deg, var(--gold), var(--saffron));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .mantra-scroll {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .mantra-card {
+            background: linear-gradient(135deg, rgba(255, 153, 51, 0.08), rgba(255, 215, 0, 0.05));
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 16px;
+            padding: 30px 40px;
+            text-align: center;
+            transition: all 0.5s ease;
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+
+        .mantra-card.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .mantra-card:hover {
+            border-color: var(--gold);
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.15);
+            transform: scale(1.02) !important;
+        }
+
+        .mantra-card .mantra-text {
+            font-family: 'Yatra One', cursive;
+            font-size: clamp(20px, 3vw, 28px);
+            color: var(--gold);
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        .mantra-card .mantra-meaning {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            font-style: italic;
+        }
+
+        /* ========== TANDAV SECTION ========== */
+        .tandav-section {
+            position: relative;
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .tandav-section h2 {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: clamp(28px, 5vw, 50px);
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--gold), var(--saffron));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tandav-verse {
+            max-width: 700px;
+            font-family: 'Yatra One', cursive;
+            font-size: clamp(16px, 2.5vw, 22px);
+            line-height: 2;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 40px;
+            padding: 30px;
+            border-left: 3px solid var(--gold);
+            text-align: left;
+        }
+
+        .nataraj-container {
+            position: relative;
+            width: 250px;
+            height: 250px;
+            margin: 0 auto;
+        }
+
+        .nataraj-ring {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 50%;
+            animation: natarajSpin 15s linear infinite;
+        }
+
+        .nataraj-ring::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            width: 10px;
+            height: 10px;
+            background: var(--gold);
+            border-radius: 50%;
+            box-shadow: 0 0 20px var(--gold);
+        }
+
+        .nataraj-ring:nth-child(2) {
+            width: 80%;
+            height: 80%;
+            top: 10%;
+            left: 10%;
+            animation-duration: 10s;
+            animation-direction: reverse;
+            border-color: rgba(255, 153, 51, 0.3);
+        }
+
+        .nataraj-ring:nth-child(3) {
+            width: 60%;
+            height: 60%;
+            top: 20%;
+            left: 20%;
+            animation-duration: 7s;
+            border-color: rgba(78, 205, 196, 0.3);
+        }
+
+        .nataraj-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 60px;
+            animation: natarajPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes natarajSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes natarajPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        /* ========== FOOTER ========== */
+        footer {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 60px 20px 30px;
+            border-top: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        footer .om-footer {
+            font-size: 50px;
+            margin-bottom: 20px;
+            display: block;
+            animation: omPulse 3s ease-in-out infinite;
+        }
+
+        footer .blessing {
+            font-family: 'Yatra One', cursive;
+            font-size: clamp(18px, 3vw, 28px);
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+
+        footer .sub-blessing {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 30px;
+        }
+
+        footer .copyright {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* ========== DIVIDER ========== */
+        .section-divider {
+            width: 100%;
+            max-width: 300px;
+            height: 2px;
+            margin: 0 auto;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-divider::after {
+            content: '🕉';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            background: var(--deep-blue);
+            padding: 0 15px;
+        }
+
+        /* ========== MOUSE TRAIL ========== */
+        .trail-dot {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: var(--gold);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+            box-shadow: 0 0 10px var(--gold);
+        }
+
+        /* ========== MOBILE RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .music-control {
+                top: 10px;
+                right: 10px;
+                padding: 8px 14px;
+            }
+
+            .music-control .label {
+                display: none;
+            }
+
+            nav {
+                padding: 15px 20px;
+            }
+
+            .damaru-svg {
+                width: 200px;
+                height: 240px;
+            }
+
+            .attributes-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nataraj-container {
+                width: 180px;
+                height: 180px;
+            }
+        }
+
+        /* ========== SHAKE ANIMATION ========== */
+        @keyframes damaruShake {
+            0% { transform: rotate(0deg); }
+            15% { transform: rotate(15deg); }
+            30% { transform: rotate(-15deg); }
+            45% { transform: rotate(10deg); }
+            60% { transform: rotate(-10deg); }
+            75% { transform: rotate(5deg); }
+            90% { transform: rotate(-5deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        .damaru-container.shaking {
+            animation: damaruShake 0.5s ease-in-out;
+        }
+
+        /* ========== FLASH EFFECT ========== */
+        .flash-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.3), transparent 70%);
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.1s ease;
+        }
+
+        .flash-overlay.active {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- PRELOADER -->
+    <div class="preloader" id="preloader">
+        <div class="om-symbol">🕉</div>
+        <p>Har Har Mahadev</p>
+    </div>
+
+    <!-- FLASH OVERLAY -->
+    <div class="flash-overlay" id="flashOverlay"></div>
+
+    <!-- COSMIC CANVAS -->
+    <canvas id="cosmicCanvas"></canvas>
+
+    <!-- MUSIC CONTROL -->
+    <div class="music-control" id="musicControl" onclick="toggleMusic()">
+        <span class="icon" id="musicIcon">🔊</span>
+        <div class="sound-waves paused" id="soundWaves">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <span class="label">Shiv Tandav</span>
+    </div>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <div class="nav-logo">🕉 शिव</div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="hero">
+        <div class="hero-badge">✦ MahaShivratri 2026 ✦</div>
+        <div class="trishul-icon">🔱</div>
+        <h1>MAHASHIVRATRI</h1>
+        <div class="subtitle">हर हर महादेव</div>
+        <div class="sanskrit">ॐ नमः शिवाय</div>
+        <div class="mantra">जटाटवीगलज्जलप्रवाहपावितस्थले</div>
+        <div class="scroll-indicator">
+            <span>Scroll Down</span>
+            <div class="arrow"></div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- DAMARU SECTION -->
+    <section class="damaru-section" id="damaruSection">
+        <h2>🥁 Shiva's Damaru 🥁</h2>
+        <p class="instruction">✨ Click the Damaru to hear the cosmic sound ✨</p>
+
+        <div class="damaru-container" id="damaruContainer" onclick="playDamaru()">
+            <div class="damaru-glow"></div>
+            <div class="damaru-ripple" id="ripple1"></div>
+            <div class="damaru-ripple" id="ripple2"></div>
+            <div class="damaru-ripple" id="ripple3"></div>
+
+            <svg class="damaru-svg" viewBox="0 0 280 320" xmlns="http://www.w3.org/2000/svg">
+                <!-- Damaru Body -->
+                <defs>
+                    <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#8B4513;stop-opacity:1" />
+                        <stop offset="30%" style="stop-color:#D2691E;stop-opacity:1" />
+                        <stop offset="60%" style="stop-color:#A0522D;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#654321;stop-opacity:1" />
+                    </linearGradient>
+                    <linearGradient id="skinGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:#F5DEB3;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#DEB887;stop-opacity:1" />
+                    </linearGradient>
+                    <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" style="stop-color:#FFD700;stop-opacity:0.6" />
+                        <stop offset="100%" style="stop-color:#FFD700;stop-opacity:0" />
+                    </radialGradient>
+                    <filter id="shadow">
+                        <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.5"/>
+                    </filter>
+                </defs>
+
+                <!-- Glow -->
+                <ellipse cx="140" cy="160" rx="120" ry="120" fill="url(#glowGrad)" opacity="0.4">
+                    <animate attributeName="opacity" values="0.3;0.6;0.3" dur="3s" repeatCount="indefinite"/>
+                </ellipse>
+
+                <!-- Top Drum -->
+                <ellipse cx="140" cy="80" rx="75" ry="30" fill="url(#skinGrad)" stroke="#8B4513" stroke-width="3" filter="url(#shadow)"/>
+                <ellipse cx="140" cy="80" rx="55" ry="20" fill="none" stroke="#CD853F" stroke-width="1.5" opacity="0.6"/>
+
+                <!-- Body Upper Half -->
+                <path d="M65 80 Q85 140 120 155 L160 155 Q195 140 215 80" fill="url(#bodyGrad)" stroke="#654321" stroke-width="2" filter="url(#shadow)"/>
+
+                <!-- Center Band (decorated) -->
+                <rect x="110" y="148" width="60" height="24" rx="4" fill="#FFD700" stroke="#DAA520" stroke-width="1.5"/>
+                <line x1="120" y1="148" x2="120" y2="172" stroke="#B8860B" stroke-width="1" opacity="0.5"/>
+                <line x1="130" y1="148" x2="130" y2="172" stroke="#B8860B" stroke-width="1" opacity="0.5"/>
+                <line x1="140" y1="148" x2="140" y2="172" stroke="#B8860B" stroke-width="1" opacity="0.5"/>
+                <line x1="150" y1="148" x2="150" y2="172" stroke="#B8860B" stroke-width="1" opacity="0.5"/>
+                <line x1="160" y1="148" x2="160" y2="172" stroke="#B8860B" stroke-width="1" opacity="0.5"/>
+
+                <!-- Om Symbol on center -->
+                <text x="140" y="166" text-anchor="middle" font-size="16" fill="#8B0000" font-weight="bold">ॐ</text>
+
+                <!-- Body Lower Half -->
+                <path d="M65 240 Q85 180 120 165 L160 165 Q195 180 215 240" fill="url(#bodyGrad)" stroke="#654321" stroke-width="2" filter="url(#shadow)"/>
+
+                <!-- Bottom Drum -->
+                <ellipse cx="140" cy="240" rx="75" ry="30" fill="url(#skinGrad)" stroke="#8B4513" stroke-width="3" filter="url(#shadow)"/>
+                <ellipse cx="140" cy="240" rx="55" ry="20" fill="none" stroke="#CD853F" stroke-width="1.5" opacity="0.6"/>
+
+                <!-- Rope/String wrapping -->
+                <path d="M95 100 Q75 160 95 220" fill="none" stroke="#DAA520" stroke-width="2.5" stroke-dasharray="8,4"/>
+                <path d="M185 100 Q205 160 185 220" fill="none" stroke="#DAA520" stroke-width="2.5" stroke-dasharray="8,4"/>
+
+                <!-- Beads (striker balls) on strings -->
+                <line x1="60" y1="155" x2="30" y2="145" stroke="#CD853F" stroke-width="2"/>
+                <circle cx="27" cy="143" r="8" fill="#8B4513" stroke="#654321" stroke-width="1.5"/>
+                <circle cx="27" cy="143" r="3" fill="#A0522D"/>
+
+                <line x1="220" y1="155" x2="250" y2="145" stroke="#CD853F" stroke-width="2"/>
+                <circle cx="253" cy="143" r="8" fill="#8B4513" stroke="#654321" stroke-width="1.5"/>
+                <circle cx="253" cy="143" r="3" fill="#A0522D"/>
+
+                <!-- Handle/Top string -->
+                <path d="M120 55 Q140 30 160 55" fill="none" stroke="#DAA520" stroke-width="3"/>
+                <circle cx="140" cy="28" r="6" fill="#FFD700" stroke="#DAA520" stroke-width="1.5"/>
+
+                <!-- Decorative dots -->
+                <circle cx="110" cy="110" r="3" fill="#FFD700" opacity="0.7">
+                    <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="170" cy="110" r="3" fill="#FFD700" opacity="0.7">
+                    <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite" begin="0.5s"/>
+                </circle>
+                <circle cx="110" cy="210" r="3" fill="#FFD700" opacity="0.7">
+                    <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite" begin="1s"/>
+                </circle>
+                <circle cx="170" cy="210" r="3" fill="#FFD700" opacity="0.7">
+                    <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite" begin="1.5s"/>
+                </circle>
+
+                <!-- Trident symbol on top -->
+                <text x="140" y="56" text-anchor="middle" font-size="14" fill="#FFD700">🔱</text>
+            </svg>
+        </div>
+
+        <div class="damaru-text" id="damaruText">
+            ॐ डमरू नाद ॐ
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ATTRIBUTES SECTION -->
+    <section class="attributes-section" id="attributesSection">
+        <h2>Divine Attributes of Mahadev</h2>
+        <div class="attributes-grid">
+            <div class="attribute-card">
+                <span class="icon">🔱</span>
+                <h3>Trishul</h3>
+                <p>The trident symbolizes the three fundamental aspects of life — Creation, Sustenance, and Destruction. It represents Shiva's power over the three worlds.</p>
+            </div>
+            <div class="attribute-card">
+                <span class="icon">🐍</span>
+                <h3>Vasuki Nag</h3>
+                <p>The serpent around Shiva's neck represents the endless cycle of time and death that Shiva has conquered. It symbolizes his mastery over fear and ego.</p>
+            </div>
+            <div class="attribute-card">
+                <span class="icon">🌙</span>
+                <h3>Chandrama</h3>
+                <p>The crescent moon on Shiva's head signifies the cycle of time and his control over it. It represents the beauty of consciousness illuminating the dark mind.</p>
+            </div>
+            <div class="attribute-card">
+                <span class="icon">👁️</span>
+                <h3>Trinetra</h3>
+                <p>The third eye represents wisdom and insight. When opened, it destroys evil and ignorance. It sees beyond the apparent and perceives the truth.</p>
+            </div>
+            <div class="attribute-card">
+                <span class="icon">🏔️</span>
+                <h3>Kailash</h3>
+                <p>Mount Kailash is the divine abode of Lord Shiva and Goddess Parvati. It represents the pinnacle of spiritual attainment and eternal peace.</p>
+            </div>
+            <div class="attribute-card">
+                <span class="icon">🥁</span>
+                <h3>Damaru</h3>
+                <p>The cosmic drum whose sound created the universe. Its rhythm represents the eternal sound of creation — the primordial vibration of OM.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- MANTRAS SECTION -->
+    <section class="mantras-section" id="mantrasSection">
+        <h2>Sacred Mantras</h2>
+        <div class="mantra-scroll">
+            <div class="mantra-card">
+                <div class="mantra-text">ॐ नमः शिवाय</div>
+                <div class="mantra-meaning">Om Namah Shivaya — I bow to Lord Shiva, the auspicious one</div>
+            </div>
+            <div class="mantra-card">
+                <div class="mantra-text">महामृत्युंजय मंत्र — ॐ त्र्यम्बकं यजामहे सुगन्धिं पुष्टिवर्धनम्</div>
+                <div class="mantra-meaning">Mahamrityunjaya Mantra — We worship the three-eyed one who nourishes all beings</div>
+            </div>
+            <div class="mantra-card">
+                <div class="mantra-text">कर्पूरगौरं करुणावतारं संसारसारम् भुजगेन्द्रहारम्</div>
+                <div class="mantra-meaning">White as camphor, the incarnation of compassion, the essence of worldly existence</div>
+            </div>
+            <div class="mantra-card">
+                <div class="mantra-text">शिवं शिवकरं शान्तं शिवात्मानं शिवोत्तमम्</div>
+                <div class="mantra-meaning">Shiva who is auspicious, who causes auspiciousness, who is peace, the supreme soul</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- TANDAV SECTION -->
+    <section class="tandav-section" id="tandavSection">
+        <h2>Shiv Tandav</h2>
+        <div class="tandav-verse">
+            जटाटवीगलज्जलप्रवाहपावितस्थले<br>
+            गलेऽवलम्ब्य लम्बितां भुजङ्गतुङ्गमालिकाम्।<br>
+            डमड्डमड्डमड्डमन्निनादवड्डमर्वयं<br>
+            चकार चण्डताण्डवं तनोतु नः शिवः शिवम्॥
+        </div>
+        <div class="nataraj-container">
+            <div class="nataraj-ring"></div>
+            <div class="nataraj-ring"></div>
+            <div class="nataraj-ring"></div>
+            <div class="nataraj-center">🔱</div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <span class="om-footer">🕉</span>
+        <div class="blessing">शुभ महाशिवरात्रि</div>
+        <div class="sub-blessing">May Lord Shiva bestow his divine blessings upon you</div>
+        <div class="blessing" style="font-size: 18px; margin-top: 10px;">🔱 हर हर महादेव 🔱</div>
+        <div class="copyright" style="margin-top: 30px;">
+            ॐ नमः शिवाय | MahaShivratri 2026
+        </div>
+    </footer>
+
+    <!-- AUDIO -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="shiv-tandav.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // ========== AUDIO CONTEXT FOR DAMARU SOUND ==========
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        let audioCtx;
+
+        function createDamaruSound() {
+            if (!audioCtx) audioCtx = new AudioCtx();
+
+            // Create a rich damaru-like drum sound using Web Audio API
+            const now = audioCtx.currentTime;
+
+            // Main drum hit - low frequency
+            const osc1 = audioCtx.createOscillator();
+            const gain1 = audioCtx.createGain();
+            osc1.type = 'sine';
+            osc1.frequency.setValueAtTime(200, now);
+            osc1.frequency.exponentialRampToValueAtTime(80, now + 0.15);
+            gain1.gain.setValueAtTime(0.8, now);
+            gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+            osc1.connect(gain1);
+            gain1.connect(audioCtx.destination);
+            osc1.start(now);
+            osc1.stop(now + 0.4);
+
+            // High overtone - adds wooden character
+            const osc2 = audioCtx.createOscillator();
+            const gain2 = audioCtx.createGain();
+            osc2.type = 'triangle';
+            osc2.frequency.setValueAtTime(500, now);
+            osc2.frequency.exponentialRampToValueAtTime(150, now + 0.1);
+            gain2.gain.setValueAtTime(0.5, now);
+            gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+            osc2.connect(gain2);
+            gain2.connect(audioCtx.destination);
+            osc2.start(now);
+            osc2.stop(now + 0.2);
+
+            // Noise burst for attack
+            const bufferSize = audioCtx.sampleRate * 0.1;
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufferSize, 3);
+            }
+            const noise = audioCtx.createBufferSource();
+            noise.buffer = buffer;
+            const noiseGain = audioCtx.createGain();
+            noiseGain.gain.setValueAtTime(0.3, now);
+            noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+            
+            const noiseFilter = audioCtx.createBiquadFilter();
+            noiseFilter.type = 'bandpass';
+            noiseFilter.frequency.setValueAtTime(800, now);
+            noiseFilter.Q.setValueAtTime(2, now);
+            
+            noise.connect(noiseFilter);
+            noiseFilter.connect(noiseGain);
+            noiseGain.connect(audioCtx.destination);
+            noise.start(now);
+
+            // Resonant ring
+            const osc3 = audioCtx.createOscillator();
+            const gain3 = audioCtx.createGain();
+            osc3.type = 'sine';
+            osc3.frequency.setValueAtTime(350, now);
+            gain3.gain.setValueAtTime(0.2, now);
+            gain3.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+            osc3.connect(gain3);
+            gain3.connect(audioCtx.destination);
+            osc3.start(now);
+            osc3.stop(now + 0.6);
+
+            // Second hit (delayed) for double-sided damaru effect
+            setTimeout(() => {
+                const now2 = audioCtx.currentTime;
+                const osc4 = audioCtx.createOscillator();
+                const gain4 = audioCtx.createGain();
+                osc4.type = 'sine';
+                osc4.frequency.setValueAtTime(250, now2);
+                osc4.frequency.exponentialRampToValueAtTime(100, now2 + 0.12);
+                gain4.gain.setValueAtTime(0.6, now2);
+                gain4.gain.exponentialRampToValueAtTime(0.001, now2 + 0.35);
+                osc4.connect(gain4);
+                gain4.connect(audioCtx.destination);
+                osc4.start(now2);
+                osc4.stop(now2 + 0.35);
+
+                const osc5 = audioCtx.createOscillator();
+                const gain5 = audioCtx.createGain();
+                osc5.type = 'triangle';
+                osc5.frequency.setValueAtTime(450, now2);
+                osc5.frequency.exponentialRampToValueAtTime(120, now2 + 0.1);
+                gain5.gain.setValueAtTime(0.35, now2);
+                gain5.gain.exponentialRampToValueAtTime(0.001, now2 + 0.18);
+                osc5.connect(gain5);
+                gain5.connect(audioCtx.destination);
+                osc5.start(now2);
+                osc5.stop(now2 + 0.18);
+            }, 120);
+        }
+
+        // ========== DAMARU INTERACTION ==========
+        const damaruMessages = [
+            "ॐ डमरू नाद ॐ",
+            "हर हर महादेव!",
+            "ॐ नमः शिवाय",
+            "बम बम भोले!",
+            "जय भोलेनाथ!",
+            "शिव शक्ति!",
+            "ॐ शिवाय नमः",
+            "नमामि शमीशान",
+            "महादेव! महादेव!",
+            "डम डम डमरू बाजे!"
+        ];
+
+        let messageIndex = 0;
+
+        function playDamaru() {
+            createDamaruSound();
+
+            // Shake animation
+            const container = document.getElementById('damaruContainer');
+            container.classList.remove('shaking');
+            void container.offsetWidth; // trigger reflow
+            container.classList.add('shaking');
+
+            // Ripple effects
+            for (let i = 1; i <= 3; i++) {
+                const ripple = document.getElementById('ripple' + i);
+                ripple.classList.remove('active');
+                setTimeout(() => {
+                    ripple.classList.add('active');
+                    setTimeout(() => ripple.classList.remove('active'), 800);
+                }, (i - 1) * 150);
+            }
+
+            // Flash effect
+            const flash = document.getElementById('flashOverlay');
+            flash.classList.add('active');
+            setTimeout(() => flash.classList.remove('active'), 150);
+
+            // Show text
+            const text = document.getElementById('damaruText');
+            text.textContent = damaruMessages[messageIndex];
+            text.classList.add('visible');
+            messageIndex = (messageIndex + 1) % damaruMessages.length;
+
+            // Spawn particles from damaru
+            spawnDamaruParticles();
+
+            setTimeout(() => {
+                text.classList.remove('visible');
+            }, 2000);
+        }
+
+        function spawnDamaruParticles() {
+            const container = document.getElementById('damaruContainer');
+            const rect = container.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                const symbols = ['✨', '🕉', '🔱', '✦', '⚡', '💫'];
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.style.cssText = `
+                    position: fixed;
+                    left: ${centerX}px;
+                    top: ${centerY}px;
+                    font-size: ${12 + Math.random() * 20}px;
+                    pointer-events: none;
+                    z-index: 1000;
+                    transition: all ${0.5 + Math.random() * 1}s ease-out;
+                    opacity: 1;
+                `;
+                document.body.appendChild(particle);
+
+                requestAnimationFrame(() => {
+                    const angle = (Math.random() * 360) * (Math.PI / 180);
+                    const distance = 80 + Math.random() * 200;
+                    particle.style.left = (centerX + Math.cos(angle) * distance) + 'px';
+                    particle.style.top = (centerY + Math.sin(angle) * distance) + 'px';
+                    particle.style.opacity = '0';
+                    particle.style.transform = `scale(${0.5 + Math.random()}) rotate(${Math.random() * 360}deg)`;
+                });
+
+                setTimeout(() => particle.remove(), 1500);
+            }
+        }
+
+        // ========== BACKGROUND MUSIC ==========
+        let isMusicPlaying = false;
+        const bgMusic = document.getElementById('bgMusic');
+        bgMusic.volume = 0.4;
+
+        function toggleMusic() {
+            if (isMusicPlaying) {
+                bgMusic.pause();
+                document.getElementById('musicIcon').textContent = '🔇';
+                document.getElementById('soundWaves').classList.add('paused');
+            } else {
+                bgMusic.play().catch(() => {
+                    console.log('Auto-play prevented. User interaction needed.');
+                });
+                document.getElementById('musicIcon').textContent = '🔊';
+                document.getElementById('soundWaves').classList.remove('paused');
+            }
+            isMusicPlaying = !isMusicPlaying;
+        }
+
+        // ========== COSMIC CANVAS (Starfield) ==========
+        const canvas = document.getElementById('cosmicCanvas');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+        let nebulae = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        function initStars() {
+            stars = [];
+            for (let i = 0; i < 300; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2.5,
+                    speed: 0.1 + Math.random() * 0.5,
+                    opacity: Math.random(),
+                    twinkleSpeed: 0.005 + Math.random() * 0.02,
+                    twinklePhase: Math.random() * Math.PI * 2,
+                    color: ['#fff', '#FFD700', '#FF9933', '#4ecdc4'][Math.floor(Math.random() * 4)]
+                });
+            }
+
+            nebulae = [];
+            for (let i = 0; i < 5; i++) {
+                nebulae.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: 100 + Math.random() * 200,
+                    color: [`rgba(123, 47, 247, 0.03)`, `rgba(255, 153, 51, 0.03)`, `rgba(78, 205, 196, 0.02)`, `rgba(255, 215, 0, 0.02)`][Math.floor(Math.random() * 4)],
+                    speed: 0.1 + Math.random() * 0.3
+                });
+            }
+        }
+
+        function drawCosmos() {
+            ctx.fillStyle = 'rgba(10, 10, 46, 0.15)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw nebulae
+            nebulae.forEach(n => {
+                const gradient = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.radius);
+                gradient.addColorStop(0, n.color);
+                gradient.addColorStop(1, 'transparent');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(n.x - n.radius, n.y - n.radius, n.radius * 2, n.radius * 2);
+                n.y -= n.speed * 0.2;
+                if (n.y + n.radius < 0) n.y = canvas.height + n.radius;
+            });
+
+            // Draw stars
+            stars.forEach(star => {
+                star.twinklePhase += star.twinkleSpeed;
+                const opacity = 0.3 + Math.sin(star.twinklePhase) * 0.7;
+
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+                ctx.fillStyle = star.color;
+                ctx.globalAlpha = Math.max(0, opacity);
+                ctx.fill();
+
+                // Star glow
+                if (star.size > 1.5) {
+                    ctx.beginPath();
+                    ctx.arc(star.x, star.y, star.size * 3, 0, Math.PI * 2);
+                    ctx.fillStyle = star.color;
+                    ctx.globalAlpha = Math.max(0, opacity * 0.1);
+                    ctx.fill();
+                }
+
+                ctx.globalAlpha = 1;
+
+                star.y -= star.speed;
+                if (star.y < -10) {
+                    star.y = canvas.height + 10;
+                    star.x = Math.random() * canvas.width;
+                }
+            });
+
+            requestAnimationFrame(drawCosmos);
+        }
+
+        resizeCanvas();
+        initStars();
+        drawCosmos();
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            initStars();
+        });
+
+        // ========== FLOATING PARTICLES ==========
+        function createFloatingParticles() {
+            const symbols = ['🕉', '✨', '🔱', '✦', '💫', '⚡', '🌙', '🪷'];
+            setInterval(() => {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.fontSize = (12 + Math.random() * 24) + 'px';
+                particle.style.animationDuration = (8 + Math.random() * 15) + 's';
+                particle.style.opacity = 0.3 + Math.random() * 0.5;
+                document.body.appendChild(particle);
+
+                setTimeout(() => particle.remove(), 23000);
+            }, 800);
+        }
+        createFloatingParticles();
+
+        // ========== SCROLL ANIMATIONS ==========
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.attribute-card, .mantra-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // ========== MOUSE TRAIL ==========
+        let trailDots = [];
+        const MAX_DOTS = 15;
+
+        document.addEventListener('mousemove', (e) => {
+            const dot = document.createElement('div');
+            dot.className = 'trail-dot';
+            dot.style.left = e.clientX + 'px';
+            dot.style.top = e.clientY + 'px';
+            dot.style.width = (4 + Math.random() * 6) + 'px';
+            dot.style.height = dot.style.width;
+            document.body.appendChild(dot);
+            trailDots.push(dot);
+
+            setTimeout(() => {
+                dot.style.opacity = '0';
+                dot.style.transform = 'scale(0)';
+            }, 50);
+
+            setTimeout(() => {
+                dot.remove();
+                trailDots = trailDots.filter(d => d !== dot);
+            }, 600);
+
+            if (trailDots.length > MAX_DOTS) {
+                const old = trailDots.shift();
+                old.remove();
+            }
+        });
+
+        // ========== PRELOADER ==========
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('preloader').classList.add('hidden');
+            }, 2500);
+        });
+
+        // ========== PARALLAX ON SCROLL ==========
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.getElementById('hero');
+            if (hero) {
+                hero.style.transform = `translateY(${scrolled * 0.3}px)`;
+            }
+        });
+
+        // ========== KEYBOARD SHORTCUT ==========
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                playDamaru();
+            }
+            if (e.code === 'KeyM') {
+                toggleMusic();
+            }
+        });
+
+        // ========== INITIAL COSMIC CLEAR ==========
+        ctx.fillStyle = '#0a0a2e';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    </script>
+</body>
+</html>
