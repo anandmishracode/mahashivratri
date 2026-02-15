@@ -823,7 +823,7 @@
     <!-- MUSIC CONTROL -->
     <div class="music-control" id="musicControl" onclick="toggleMusic()">
         <span class="icon" id="musicIcon">🔊</span>
-        <div class="sound-waves" id="soundWaves">
+        <div class="sound-waves paused" id="soundWaves">
             <div class="bar"></div>
             <div class="bar"></div>
             <div class="bar"></div>
@@ -1425,41 +1425,8 @@
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.getElementById('preloader').classList.add('hidden');
-                // Auto-play Shiv Tandav after preloader hides
-                startMusic();
             }, 2500);
         });
-
-        // ========== AUTO-PLAY MUSIC ==========
-        function startMusic() {
-            if (isMusicPlaying) return;
-            bgMusic.play().then(() => {
-                isMusicPlaying = true;
-                document.getElementById('musicIcon').textContent = '🔊';
-                document.getElementById('soundWaves').classList.remove('paused');
-            }).catch(() => {
-                // Browser blocked autoplay — start on first user interaction
-                document.getElementById('musicIcon').textContent = '🔇';
-                document.getElementById('soundWaves').classList.add('paused');
-                const resumeOnInteraction = () => {
-                    if (!isMusicPlaying) {
-                        bgMusic.play().then(() => {
-                            isMusicPlaying = true;
-                            document.getElementById('musicIcon').textContent = '🔊';
-                            document.getElementById('soundWaves').classList.remove('paused');
-                        }).catch(() => {});
-                    }
-                    document.removeEventListener('click', resumeOnInteraction);
-                    document.removeEventListener('scroll', resumeOnInteraction);
-                    document.removeEventListener('keydown', resumeOnInteraction);
-                    document.removeEventListener('touchstart', resumeOnInteraction);
-                };
-                document.addEventListener('click', resumeOnInteraction, { once: false });
-                document.addEventListener('scroll', resumeOnInteraction, { once: false });
-                document.addEventListener('keydown', resumeOnInteraction, { once: false });
-                document.addEventListener('touchstart', resumeOnInteraction, { once: false });
-            });
-        }
 
         // ========== PARALLAX ON SCROLL ==========
         window.addEventListener('scroll', () => {
